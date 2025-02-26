@@ -6,7 +6,6 @@ import java.util.Arrays;
  * A resizable-array implementation of the {@link IntQueue} interface. The head of
  * the queue starts out at the head of the array, allowing the queue to grow and
  * shrink in constant time.
- *
  * TODO: This implementation contains three bugs! Use your tests to determine the
  * source of the bugs and correct them!
  *
@@ -15,94 +14,104 @@ import java.util.Arrays;
  */
 public class ArrayIntQueue implements IntQueue {
 
-    /**
-     * An array holding this queue's data
-     */
-    private int[] elementData;
+  /**
+  * An array holding this queue's data.
+  */
 
-    /**
-     * Index of the next dequeue-able value
-     */
-    private int head;
+  private int[] elementData;
 
-    /**
-     * Current size of queue
-     */
-    private int size;
+  /**
+   * Index of the next dequeue-able value.
+  */
+  private int head;
 
-    /**
-     * The initial size for new instances of ArrayQueue
-     */
-    private static final int INITIAL_SIZE = 10;
+  /**
+   * Current size of queue.
+   */
+  private int size;
 
-    /**
-     * Constructs an empty queue with an initial capacity of ten.
-     */
-    public ArrayIntQueue() {
-        elementData = new int[INITIAL_SIZE];
-        head = 0;
-        size = 0;
+  /**
+  * The initial size for new instances of ArrayQueue.
+   */
+  private static final int INITIAL_SIZE = 10;
+
+  /**
+   * Constructs an empty queue with an initial capacity of ten.
+   */
+  public ArrayIntQueue() {
+    elementData = new int[INITIAL_SIZE];
+    head = 0;
+    size = 0;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void clear() {
+    Arrays.fill(elementData, 0);
+    size = 0;
+    head = 0;
+  }
+  
+  /** {@inheritDoc} */
+  @Override
+  public Integer dequeue() {
+    if (isEmpty()) {
+      return null;
     }
+    Integer value = elementData[head];
+    head = (head + 1) % elementData.length;
+    size--;
+    return value;
+  }
 
-    /** {@inheritDoc} */
-    public void clear() {
-        Arrays.fill(elementData, 0);
-        size = 0;
-        head = 0;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public boolean enqueue(Integer value) {
+    ensureCapacity();
+    int tail = (head + size) % elementData.length;
+    elementData[tail] = value;
+    size++;
+    return true;
+  }
 
-    /** {@inheritDoc} */
-    public Integer dequeue() {
-        if (isEmpty()) {
-            return null;
-        }
-        Integer value = elementData[head];
-        head = (head + 1) % elementData.length;
-        size--;
-        return value;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public boolean isEmpty() {
+    return size == 0;
+  }
 
-    /** {@inheritDoc} */
-    public boolean enqueue(Integer value) {
-        ensureCapacity();
-        int tail = (head + size) % elementData.length;
-        elementData[tail] = value;
-        size++;
-        return true;
+  /** {@inheritDoc} */
+  @Override
+  public Integer peek() {
+    if (isEmpty()) {
+      return null;
     }
+    return elementData[head];
+  }
 
-    /** {@inheritDoc} */
-    public boolean isEmpty() {
-        return size >= 0;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public int size() {
+    return size;
+  }
 
-    /** {@inheritDoc} */
-    public Integer peek() {
-        return elementData[head];
+  /**
+   * Increases the capacity of this <tt>ArrayIntQueue</tt> instance, if
+   * necessary, to ensure that it can hold at least size + 1 elements.
+   */
+  private void ensureCapacity() {
+    if (size == elementData.length) {
+      int oldCapacity = elementData.length;
+      int newCapacity = 2 * oldCapacity + 1;
+      int[] newData = new int[newCapacity];
+      for (int i = head; i < oldCapacity; i++) {
+        newData[i - head] = elementData[i];
+      }
+      for (int i = 0; i < head; i++) {
+        newData[oldCapacity - head + i] = elementData[i];
+      }
+      elementData = newData;
+      head = 0;
     }
-
-    /** {@inheritDoc} */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * Increases the capacity of this <tt>ArrayIntQueue</tt> instance, if
-     * necessary, to ensure that it can hold at least size + 1 elements.
-     */
-    private void ensureCapacity() {
-        if (size == elementData.length) {
-            int oldCapacity = elementData.length;
-            int newCapacity = 2 * oldCapacity + 1;
-            int[] newData = new int[newCapacity];
-            for (int i = head; i < oldCapacity; i++) {
-                newData[i - head] = elementData[i];
-            }
-            for (int i = 0; i < head; i++) {
-                newData[head - i] = elementData[i];
-            }
-            elementData = newData;
-            head = 0;
-        }
-    }
+  }
 }

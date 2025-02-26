@@ -10,46 +10,45 @@ package edu.cmu.cs.cs214.rec02;
  */
 public interface IntQueue {
 
-    /**
+  /**
      * Remove all the elements from the queue.
      */
-    void clear();
+  void clear();
 
-    /**
-     * Fetch and remove the element at the head of the queue.
-     *
-     * @return 	The element at the head of the queue. Returns
-     * 			null if the queue is empty.
-     */
-    Integer dequeue();
+  /**
+   * Fetch and remove the element at the head of the queue.
+   *
+   * @return 	The element at the head of the queue. Returns
+   * null if the queue is empty.
+   */
+  Integer dequeue();
 
-    /**
-     * Add the element to the tail of the queue.
-     *
-     * @param value	The element to place at the tail of the queue.
-     * @return 		Whether the element was enqueued successfully.
-     */
-    boolean enqueue(Integer value);
+  /**
+   * Add the element to the tail of the queue.
+   *
+   * @param value	The element to place at the tail of the queue.
+   * @return 		Whether the element was enqueued successfully.
+  */
+  boolean enqueue(Integer value);
 
-    /**
+  /**
      * Determine if the queue is empty.
      *
      * @return <tt>true</tt> if the queue is empty, <tt>false</tt> otherwise.
      */
-    boolean isEmpty();
+  boolean isEmpty();
 
-    /**
+  /**
      * Fetch the element at the head of the queue.
      *
-     * @return The element at the head of the queue. Returns null if queue
-     * 		   is empty.
+     * @return The element at the head of the queue. Returns null if queue is empty.
      */
-    Integer peek();
+  Integer peek();
 
-    /**
+  /**
      * Determine the number of elements in the queue.
      *
      * @return The number of elements in the queue.
      */
-    int size();
+  int size();
 }
