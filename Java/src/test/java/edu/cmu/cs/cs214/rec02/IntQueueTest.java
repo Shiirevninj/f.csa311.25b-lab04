@@ -128,7 +128,7 @@ public class IntQueueTest {
       assertEquals(Integer.valueOf(i), mQueue.dequeue());
     }
     assertEquals(Integer.valueOf(15), mQueue.dequeue());
-    assertTrue(mQueue.isEmpty());//sdd
+    assertTrue(mQueue.isEmpty()); 
   }
 
   @Test
